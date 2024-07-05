@@ -6,12 +6,35 @@
     <title>Document</title>
   </head>
   <body>
-    <h1>A simple Calculator</h1>
-    <form action="" method="POST">
-      <label for="sum_num">Please enter a number:</label>
-      <input type="text" id="sum_num" name="sum_num" />
-
-      <button>submit</button>
+    <h1>A Simple Calculator</h1>
+    <form action="" class="data" method="GET">
+      <label for="number">Please enter a number:</label>
+      <input type="text" id="number" />
+      <button type="button" class="submitData" onclick="getData()">
+        submit
+      </button>
     </form>
+    <h2 id="answer"></h2>
+
+    <script>
+      const btn = document.querySelector(".submitData");
+      let input = document.querySelector("#number");
+
+      //ajax
+      const httpRequest = new XMLHttpRequest();
+      function getData() {
+        httpRequest.open("GET", "/getData?number=" + input.value, true);
+        httpRequest.send();
+      }
+      //監聽事件
+      httpRequest.onreadystatechange = function () {
+        if (httpRequest.readyState === 4 && httpRequest.status === 200) {
+          document.getElementById("answer").innerHTML =
+            httpRequest.responseText;
+        } else {
+          alert(httpRequest.statusText);
+        }
+      };
+    </script>
   </body>
 </html>
